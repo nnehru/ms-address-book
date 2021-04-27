@@ -3,14 +3,14 @@ version: '3'
 services:
   database:
     image: "postgres" # use latest official postgres version
-    hostname: localhost
+    hostname: postgres
     container_name: postgres
     ports:
     - "5432:5432"
     environment:
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=reecedb
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=admin
+      - POSTGRES_PASSWORD=pass
   msaddressbook_service:
     image: nishant-address-book:latest
     container_name: ms-address-book

@@ -1,8 +1,6 @@
-package au.com.reece.msaddressbook.model;
+package au.com.reece.msaddressbook.vo;
 
 import au.com.reece.msaddressbook.entity.ReeceApiStatus;
-import au.com.reece.msaddressbook.vo.AddressBookVo;
-import au.com.reece.msaddressbook.vo.ContactVo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;

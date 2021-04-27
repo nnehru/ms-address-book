@@ -1,11 +1,11 @@
 package au.com.reece.msaddressbook.api;
 
 import au.com.reece.msaddressbook.entity.ReeceApiStatus;
-import au.com.reece.msaddressbook.exception.ForbiddenException;
-import au.com.reece.msaddressbook.model.AddressBookApiRequest;
-import au.com.reece.msaddressbook.model.AddressBookApiResponse;
+import au.com.reece.msaddressbook.exception.ServiceForbiddenException;
 import au.com.reece.msaddressbook.service.AddressBookService;
 import au.com.reece.msaddressbook.service.ContactService;
+import au.com.reece.msaddressbook.vo.AddressBookApiRequest;
+import au.com.reece.msaddressbook.vo.AddressBookApiResponse;
 import au.com.reece.msaddressbook.vo.ContactVo;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -48,7 +48,7 @@ public class AddressBookController {
   @ApiResponses(
       value = {
         @ApiResponse(code = 500, message = "Server error"),
-        @ApiResponse(code = 404, message = "Service not found"),
+        @ApiResponse(code = 403, message = "Access Forbidden"),
         @ApiResponse(
             code = 201,
             message = "Successful save",
@@ -66,17 +66,27 @@ public class AddressBookController {
     log.info("Save Request::: {}", addressBookApiRequest);
     validateForbidden(apiCode);
     return new ResponseEntity<>(
-        ApiResponseHandler.transformResponse(
-            userId,
-            Collections.singletonList(addressBookService.save(userId, addressBookApiRequest)),
-            ReeceApiStatus.API_202),
+        AddressBookApiResponse.builder()
+            .userId(userId)
+            .addressBooks(
+                Collections.singletonList(addressBookService.save(userId, addressBookApiRequest)))
+            .apiStatus(ReeceApiStatus.API_202)
+            .build(),
         HttpStatus.CREATED);
   }
 
   @ApiOperation(
       value = "getAllContacts",
-      notes = "Gets all unique contact (Firstname & phone number) for a user",
-      nickname = "getGreeting")
+      notes = "Gets all unique contact (Firstname & phone number) for a user")
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 500, message = "Server error"),
+        @ApiResponse(code = 403, message = "Access Forbidden"),
+        @ApiResponse(
+            code = 200,
+            message = "Successful get",
+            response = AddressBookApiResponse.class)
+      })
   @GetMapping(
       value = {
         "/users/{userId}/contacts",
@@ -119,7 +129,11 @@ public class AddressBookController {
       @PathVariable(name = "addressbookId") Long addressbookId,
       @PathVariable(name = "contactId") Long contactId) {
 
-    log.info("Received request for deleting a contact");
+    log.info(
+        "Received request for deleting a contact for user {}, addressBook {}, contact {}",
+        userId,
+        addressbookId,
+        contactId);
     validateForbidden(apiCode);
     contactService.removeContact(userId, addressbookId, contactId);
     return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -128,7 +142,7 @@ public class AddressBookController {
   private void validateForbidden(String requestApiCode) {
     if (!apiCode.equals(requestApiCode)) {
       log.error("");
-      throw ForbiddenException.builder().message("Invalid API code").build();
+      throw ServiceForbiddenException.builder().message("Invalid API code").build();
     }
   }
 }

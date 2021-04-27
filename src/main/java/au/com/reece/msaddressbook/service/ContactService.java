@@ -31,7 +31,7 @@ public class ContactService {
   }
 
   public List<ContactVo> getContactsByAddressBook(final long userId, final long addressBookId) {
-    return contactRepository.findContactsByAddressBook_AddressBookId(userId, addressBookId).stream()
+    return contactRepository.findContactsByUserIdAddressBookId(userId, addressBookId).stream()
         .map(
             contact ->
                 ContactVo.builder()

@@ -2,15 +2,18 @@ package au.com.reece.msaddressbook.service;
 
 import au.com.reece.msaddressbook.entity.AddressBook;
 import au.com.reece.msaddressbook.entity.Contact;
-import au.com.reece.msaddressbook.model.AddressBookApiRequest;
 import au.com.reece.msaddressbook.repository.AddressBookRepository;
 import au.com.reece.msaddressbook.repository.ReeceUserRepository;
+import au.com.reece.msaddressbook.vo.AddressBookApiRequest;
+import au.com.reece.msaddressbook.vo.AddressBookVo;
+import au.com.reece.msaddressbook.vo.ContactVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityExistsException;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,7 +28,7 @@ public class AddressBookService {
       noRollbackFor = EntityExistsException.class,
       rollbackForClassName = "IllegalArgumentException",
       noRollbackForClassName = "EntityExistsException")
-  public AddressBook save(long userId, AddressBookApiRequest addressBookApiRequest) {
+  public AddressBookVo save(long userId, AddressBookApiRequest addressBookApiRequest) {
     var addressBook = new AddressBook();
     var reeceUser = reeceUserRepository.findByUserId(userId);
     addressBook.setReeceUser(reeceUser);
@@ -44,6 +47,27 @@ public class AddressBookService {
                 })
             .collect(Collectors.toList());
     addressBook.setContacts(contacts);
-    return addressBookRepository.save(addressBook);
+    return transform(addressBookRepository.save(addressBook));
+  }
+
+  private AddressBookVo transform(AddressBook addressBook) {
+
+    return AddressBookVo.builder()
+        .addressBookId(addressBook.getAddressBookId())
+        .savedName(addressBook.getSavedName())
+        .contacts(
+            Set.copyOf(
+                addressBook.getContacts().stream()
+                    .map(
+                        contact ->
+                            ContactVo.builder()
+                                .firstName(contact.getFirstName())
+                                .lastName(contact.getLastName())
+                                .phoneNumber(contact.getPhoneNumber())
+                                .email(contact.getEmail())
+                                .contactId(contact.getContactId())
+                                .build())
+                    .collect(Collectors.toList())))
+        .build();
   }
 }

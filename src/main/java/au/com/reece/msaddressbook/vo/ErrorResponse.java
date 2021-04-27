@@ -1,4 +1,4 @@
-package au.com.reece.msaddressbook.model;
+package au.com.reece.msaddressbook.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;

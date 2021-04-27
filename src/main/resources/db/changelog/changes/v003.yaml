@@ -29,4 +29,12 @@ databaseChangeLog:
             referencedTableName: address_book
             referencedTableSchemaName: public
             validate: true
+  - changeSet:
+      id: Reece user seed values
+      author: Nishant Nehru
+      changes:
+        - sql:
+            sql: insert into reece_user(first_name, last_name, designation) values ('Mel', 'Gibson', 'Branch Manager')
+        - sql:
+            sql: insert into reece_user(first_name, last_name, designation) values ('Chris', 'Hemsworth', 'Scrum Master')
 

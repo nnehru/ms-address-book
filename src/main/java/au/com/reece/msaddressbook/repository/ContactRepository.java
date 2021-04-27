@@ -24,7 +24,7 @@ public interface ContactRepository extends JpaRepository<Contact, Long> {
 
   @Query(
       "Select c from Contact c INNER JOIN AddressBook a on c.addressBook.addressBookId = a.addressBookId where a.addressBookId = :addressBookId and a.reeceUser.userId = :userId")
-  List<Contact> findContactsByAddressBook_AddressBookId(long userId, long addressBookId);
+  List<Contact> findContactsByUserIdAddressBookId(long userId, long addressBookId);
 
   @Query(nativeQuery = true, value = CONTACT_BY_USERID_ADDID_CNTID)
   Contact findContactByUserIdAddIdContactId(long userId, long addressBookId, long contactId);

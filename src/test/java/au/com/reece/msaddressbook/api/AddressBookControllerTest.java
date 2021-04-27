@@ -1,10 +1,10 @@
 package au.com.reece.msaddressbook.api;
 
 import au.com.reece.msaddressbook.entity.AddressBook;
-import au.com.reece.msaddressbook.entity.Contact;
-import au.com.reece.msaddressbook.model.AddressBookApiRequest;
 import au.com.reece.msaddressbook.service.AddressBookService;
 import au.com.reece.msaddressbook.service.ContactService;
+import au.com.reece.msaddressbook.vo.AddressBookApiRequest;
+import au.com.reece.msaddressbook.vo.AddressBookVo;
 import au.com.reece.msaddressbook.vo.ContactVo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,7 +20,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -84,14 +86,14 @@ class AddressBookControllerTest {
     AddressBookApiRequest requestObj = getRequestObject();
     Mockito.when(addressBookService.save(1, requestObj)).thenThrow(RuntimeException.class);
     final ResultActions result =
-            mvc.perform(
-                    post("/v1/users/1/address-book")
-                            .content(getJsonRequestBody(requestObj))
-                            .header("api-code", "Reece123")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .characterEncoding("utf-8")
-                            .accept(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isInternalServerError());
+        mvc.perform(
+                post("/v1/users/1/address-book")
+                    .content(getJsonRequestBody(requestObj))
+                    .header("api-code", "Reece123")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .characterEncoding("utf-8")
+                    .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isInternalServerError());
   }
 
   private String getJsonRequestBody(AddressBookApiRequest addressBookApiRequest)
@@ -128,19 +130,23 @@ class AddressBookControllerTest {
         .build();
   }
 
-  private AddressBook getAddressObj() {
+  private AddressBookVo getAddressObj() {
     AddressBook addressBook = new AddressBook();
     addressBook.setAddressBookId(1);
-    addressBook.setSavedName("TestAddBook1");
-    List<Contact> contacts = new ArrayList<>();
-    Contact contact = new Contact();
+    Set<ContactVo> contacts = new HashSet();
+    ContactVo contact =
+        ContactVo.builder()
+            .contactId(1)
+            .firstName("John")
+            .lastName("Payne")
+            .phoneNumber("0426789098")
+            .email("aa@a.com")
+            .build();
     contacts.add(contact);
-    addressBook.setContacts(contacts);
-    contact.setContactId(1);
-    contact.setFirstName("John");
-    contact.setLastName("Payne");
-    contact.setPhoneNumber("1111");
-    contact.setEmail("jp@aa.com");
-    return addressBook;
+    return AddressBookVo.builder()
+        .addressBookId(1)
+        .contacts(contacts)
+        .savedName("TestAddBook1")
+        .build();
   }
 }
