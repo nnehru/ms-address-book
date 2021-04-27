@@ -1,0 +1,26 @@
+# docker-compose.yml
+version: '3'
+services:
+  database:
+    image: "postgres" # use latest official postgres version
+    hostname: localhost
+    container_name: postgres
+    ports:
+    - "5432:5432"
+    env_file:
+      - database.env # configure postgres
+  #  volumes:
+   #   - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
+#volumes:
+ # database-data: # named volumes can be managed easier using docker-compose
+  msaddressbook_service:
+    image: nishant-address-book:latest
+    container_name: ms-address-book
+    ports:
+      - 8187:8187
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: pass
+    depends_on:
+      - database

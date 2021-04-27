@@ -1,0 +1,92 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-addressBook
+      author: Nishant Nehru
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: address_book
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: address_book_pkey
+                  name: address_book_id
+                  type: BIGINT
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(250)
+              - column:
+                  name: create_ts
+                  type: timestamp with time zone
+                  defaultValueComputed: current_timestamp
+            tableName: address_book
+        - createSequence:
+            incrementBy: 1
+            schemaName: public
+            sequenceName: seq_address_book
+            startValue: 1
+  - changeSet:
+      id: create-table-contact
+      author: Nishant Nehru
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: contact
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: contact_pkey
+                  name: contact_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: address_book_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: phone_number
+                  type: VARCHAR(20)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: first_name
+                  type: VARCHAR(250)
+              - column:
+                  name: last_name
+                  type: VARCHAR(250)
+              - column:
+                  name: email
+                  type: VARCHAR(250)
+              - column:
+                  name: create_ts
+                  type: timestamp with time zone
+                  defaultValueComputed: current_timestamp
+            tableName: contact
+        - createSequence:
+            incrementBy: 1
+            schemaName: public
+            sequenceName: seq_contact
+            startValue: 1
+
+

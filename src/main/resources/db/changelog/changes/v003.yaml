@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: alter-table-addressBook
+      author: Nishant Nehru
+      changes:
+      - addForeignKeyConstraint:
+          baseColumnNames: user_id
+          baseTableName: address_book
+          baseTableSchemaName: public
+          constraintName: fk_address_book_reece_user
+          deferrable: true
+          initiallyDeferred: true
+          onDelete: CASCADE
+          onUpdate: RESTRICT
+          referencedColumnNames: user_id
+          referencedTableName: reece_user
+          referencedTableSchemaName: public
+          validate: true
+      - addForeignKeyConstraint:
+            baseColumnNames: address_book_id
+            baseTableName: contact
+            baseTableSchemaName: public
+            constraintName: fk_contact_address_book
+            deferrable: true
+            initiallyDeferred: true
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: address_book_id
+            referencedTableName: address_book
+            referencedTableSchemaName: public
+            validate: true
+

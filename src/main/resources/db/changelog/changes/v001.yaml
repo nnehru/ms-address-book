@@ -1,0 +1,45 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-reece_user
+      author: Nishant Nehru
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: reece_user
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: reece_user_pkey
+                  name: user_id
+                  type: BIGINT
+              - column:
+                  name: first_name
+                  type: VARCHAR(250)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: VARCHAR(250)
+              - column:
+                  name: designation
+                  type: VARCHAR(250)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: create_ts
+                  type: timestamp with time zone
+                  defaultValueComputed: current_timestamp
+            tableName: reece_user
+        - createSequence:
+            incrementBy: 1
+            schemaName: public
+            sequenceName: seq_reece_user
+            startValue: 1
+
+

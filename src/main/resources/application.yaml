@@ -1,0 +1,27 @@
+spring:
+  application:
+    name:address-book
+  datasource:
+    url: jdbc:postgresql://localhost:5432/reecedb
+    username: postgres
+    password: pass
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+
+
+server:
+  port: 8187
+  servlet:
+    context-path: /ms-address-book
+
+management:
+  endpoint:
+    health:
+      show-details: always
+
+reece:
+  apiCode: Reece123
