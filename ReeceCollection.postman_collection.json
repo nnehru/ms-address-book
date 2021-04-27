@@ -1,0 +1,198 @@
+{
+	"info": {
+		"_postman_id": "6fc8e6ec-beb5-4d69-95ff-bf121ac1a02b",
+		"name": "ReeceCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create AddressBook",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "api-code",
+						"value": "Reece123",
+						"type": "text"
+					},
+					{
+						"key": "correlationId",
+						"value": "12345",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf8",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"addressBookName\":\"Tester\",\"contactEntries\":[{\"phoneNumber\":\"1223477\",\"firstName\":\"AGHJ\",\"lastName\":\"GHJ\",\"email\":\"sdsdsd\"},{\"phoneNumber\":\"1468776577\",\"firstName\":\"sdsds\",\"lastName\":\"dsds\",\"email\":\"wewew\"},{\"phoneNumber\":\"1485653276577\",\"firstName\":\"Zvccvc\",\"lastName\":\"rttrr\",\"email\":\"sdrghb\"}]}"
+				},
+				"url": {
+					"raw": "http://localhost:8187/ms-address-book/v1/users/2/address-book",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8187",
+					"path": [
+						"ms-address-book",
+						"v1",
+						"users",
+						"2",
+						"address-book"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Unique contacts for a User",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "api-code",
+						"value": "Reece123",
+						"type": "text"
+					},
+					{
+						"key": "correlationId",
+						"value": "12345",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8187/ms-address-book/v1/users/1/contacts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8187",
+					"path": [
+						"ms-address-book",
+						"v1",
+						"users",
+						"1",
+						"contacts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get contacts in an addressBook",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "api-code",
+						"value": "Reece123",
+						"type": "text"
+					},
+					{
+						"key": "correlationId",
+						"value": "12345",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8187/ms-address-book/v1/users/1/address-books/5/contacts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8187",
+					"path": [
+						"ms-address-book",
+						"v1",
+						"users",
+						"1",
+						"address-books",
+						"5",
+						"contacts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a contact from an Address Book for a user",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "api-code",
+						"value": "1234",
+						"type": "text"
+					},
+					{
+						"key": "correlationId",
+						"value": "12345",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8187/ms-address-book/v1/users/1/address-books/2/contacts/88",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8187",
+					"path": [
+						"ms-address-book",
+						"v1",
+						"users",
+						"1",
+						"address-books",
+						"2",
+						"contacts",
+						"88"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
