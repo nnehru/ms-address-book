@@ -7,12 +7,10 @@ services:
     container_name: postgres
     ports:
     - "5432:5432"
-    env_file:
-      - database.env # configure postgres
-  #  volumes:
-   #   - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
-#volumes:
- # database-data: # named volumes can be managed easier using docker-compose
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
   msaddressbook_service:
     image: nishant-address-book:latest
     container_name: ms-address-book
